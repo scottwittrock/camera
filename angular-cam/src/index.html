@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>AngularCam</title>
+  <base href="/">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <script type="text/javascript" src="https://cdn.slyce.it/websdk/v2.x/slyce.sdk.gz.js"></script>
+  <script type="text/javascript">
+    var sdk = new slyceSDK();
+    var accountId = 'slyce_integrations';
+    var apiKey = 'Rb8Mx-RFa1u2tfx4kf6EFiRlz4eMpN4Xy4Ls7PcaYMA';
+    var spaceId = 'ERwVrhR8MVAiGmsNBGSxbW';
+
+    sdk.initSlyceSpace(accountId, apiKey, spaceId)
+    .then(function(response){
+        console.log(response);
+    })
+    .catch(function(error){
+        console.error(error);
+    });
+  </script>
+</head>
+<body>
+  <app-root></app-root>
+</body>
+</html>

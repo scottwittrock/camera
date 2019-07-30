@@ -1,0 +1,13 @@
+<div class="container">
+    <app-camera (onTag)="renderTag($event)" (onStart)="onStart($event)"></app-camera>
+</div>
+
+<div class="overlay" *ngIf="searching">
+        <div *ngIf="userGeneratedImage" class="image-container">
+            <img [src]="userGeneratedImage">
+            Results {{message}}
+        </div>
+        <div *ngFor="let result of results; let i = index;">
+            result {{i}}: {{result.title}}
+        </div>
+</div>

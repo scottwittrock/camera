@@ -19,14 +19,9 @@ video{
     transform: translate(-50%, -50%);
     min-height: 100%;
     min-width: 100%;
-    z-index: -10;
-}
-
-img {
-    height: 100px;
-    width: 100px;
+    z-index: 0;
 }
 
 canvas {
-    display: none;
+    display: none; 
 }

@@ -1,6 +1,9 @@
-<div #lens class="lens" (click)="snapPicture()">
-    <video #preview autoplay playsinline muted></video>
-</div>
-<canvas #canvas>
+<canvas #canvas *ngIf="!fallback">
+    
 </canvas>
 
+<div #lens *ngIf="!fallback" class="lens" (click)="snapPicture()">
+    <video #preview autoplay playsinline muted></video>
+</div>
+
+<button *ngIf="fallback">Submit Image</button>

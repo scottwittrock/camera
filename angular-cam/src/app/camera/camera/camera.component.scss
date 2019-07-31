@@ -25,3 +25,55 @@ video{
 canvas {
     display: none; 
 }
+
+button {
+        background-color: blue; 
+        color: white; 
+        padding: 8px 15px;
+        margin: 5px; 
+        border-radius: 8px;
+        width: calc(100% - 10px);
+}
+
+
+/* Styling the Input */
+.inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+    z-index: -1;
+    
+    width: calc(100% - 80px);
+}
+.inputfile + label {
+    display: inline-block;
+    border: none;
+    border-radius: 8px;
+    padding: 1rem 2rem;
+    margin: 10px;
+    text-decoration: none;
+    background: #0069ed;
+    color: #ffffff;
+    font-family: sans-serif;
+    font-size: 14pt;
+    line-height: 1;
+    cursor: pointer;
+    text-align: center;
+    transition: background 250ms ease-in-out, transform 150ms ease;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: calc(100% - 80px);
+}
+
+.inputfile:focus + label,
+.inputfile + label:hover {
+    background: #0053ba;
+    width: calc(100% - 80px);
+}
+
+.inputfile + label {
+    cursor: pointer; /* "hand" cursor */
+    width: calc(100% - 80px);
+}

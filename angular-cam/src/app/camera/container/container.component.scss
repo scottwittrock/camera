@@ -68,3 +68,12 @@ img {
     border-radius: 8px;
     display: inline;
 }
+
+.button {
+    background-color: blue; 
+    color: white; 
+    padding: 8px 15px;
+    margin: 5px; 
+    border-radius: 8px;
+    width: calc(100% - 10px);
+}

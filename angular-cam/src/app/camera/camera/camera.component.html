@@ -6,4 +6,6 @@
     <video #preview autoplay playsinline muted></video>
 </div>
 
-<button *ngIf="fallback">Submit Image</button>
+
+<input class="inputfile" *ngIf="fallback" type="file">
+<label for="file">Select Image</label>

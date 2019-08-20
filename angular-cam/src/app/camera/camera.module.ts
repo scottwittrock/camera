@@ -8,12 +8,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { PreviewBigComponent } from './preview-big/preview-big.component';
 
 @NgModule({
-  declarations: [CameraComponent, ContainerComponent, PreviewBigComponent],
-  imports: [
-    CommonModule,
-    CameraRoutingModule, 
-    HttpClientModule
-  ], 
-  exports: [ CameraComponent ]
+    declarations: [CameraComponent, ContainerComponent, PreviewBigComponent],
+    imports: [
+        CommonModule,
+        CameraRoutingModule,
+        HttpClientModule
+    ],
+    exports: [
+        CameraComponent,
+        PreviewBigComponent
+    ]
 })
 export class CameraModule { }

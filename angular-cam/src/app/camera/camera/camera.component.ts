@@ -20,6 +20,7 @@ export class CameraComponent implements OnInit {
     sdk;
     results;
     fallback;
+    orientation;
 
     constraints = {
         video: {
@@ -36,6 +37,9 @@ export class CameraComponent implements OnInit {
 
     ngOnInit() {
         this.sdk = window["sdk"];
+        setInterval(() => {
+            this.orientation = this.getOrientation();
+        }, 500)
     }
 
     ngAfterViewInit() {
@@ -54,100 +58,175 @@ export class CameraComponent implements OnInit {
 
     image;
 
+    getOrientation() {
+        var cameraWidth = this.preview.nativeElement.srcObject.getVideoTracks()[0].getSettings().width;
+        var cameraHeight = this.preview.nativeElement.srcObject.getVideoTracks()[0].getSettings().height;
+        var lensWidth = this.lens.nativeElement.offsetWidth;
+        var lensHeight = this.lens.nativeElement.offsetHeight;
+        let orientation:
+            'portrait-heightUnder-widthUnder' |
+            'landscape-heightUnder-widthUnder' |
+            'square-heightUnder-widthUnder' |
+
+            'portrait-heightOver-widthUnder' |
+            'landscape-heightOver-widthUnder' |
+            'square-heightOver-widthUnder' |
+            'landscape-heightOver-widthOver' |
+
+            'landscape-heightUnder-widthOver' |
+
+            
+            // Not possible..
+            'square-heightOver-widthOver' | // Maybe possible on big device
+            'square-heightUnder-widthOver' |
+            'portrait-heightUnder-widthOver' |
+            'portrait-heightOver-widthOver' // Really long phone
+
+        if (lensWidth < lensHeight) {
+            // console.log("Portrait");
+            if (lensHeight < cameraHeight) {
+                // console.log("height under");
+                if (lensWidth < cameraWidth) {
+                    // console.log("width under");
+                    orientation = 'portrait-heightUnder-widthUnder';
+                } else {
+                    // console.log('width over');
+                    orientation = 'portrait-heightUnder-widthOver'
+                }
+            } else {
+                // console.log("height over");
+                if (lensWidth < cameraWidth) {
+                    // console.log("width under");
+                    orientation = 'portrait-heightOver-widthUnder';
+                } else {
+                    // console.log('width over');
+                    orientation = 'portrait-heightOver-widthOver'
+                }
+            }
+        } else if (lensWidth > lensHeight) {
+            // console.log("Landscape");
+            if (lensHeight < cameraHeight) {
+                // console.log("height under");
+                if (lensWidth < cameraWidth) {
+                    // console.log("width under");
+                    orientation = 'landscape-heightUnder-widthUnder';
+                } else {
+                    // console.log('width over');
+                    orientation = 'landscape-heightUnder-widthOver'
+                }
+            } else {
+                // console.log("height over");
+                if (lensWidth < cameraWidth) {
+                    // console.log("width under");
+                    orientation = 'landscape-heightOver-widthUnder';
+                } else {
+                    // console.log('width over');
+                    orientation = 'landscape-heightOver-widthOver'
+                }
+            }
+        } else {
+            // console.log("Square");
+            if (lensHeight < cameraHeight) {
+                // console.log("height under");
+                if (lensWidth < cameraWidth) {
+                    // console.log("width under");
+                    orientation = 'square-heightUnder-widthUnder';
+                } else {
+                    // console.log('width over');
+                    orientation = 'square-heightUnder-widthOver'
+                }
+            } else {
+                // console.log("height over");
+                if (lensWidth < cameraWidth) {
+                    // console.log("width under");
+                    orientation = 'square-heightOver-widthUnder';
+                } else {
+                    // console.log('width over');
+                    orientation = 'square-heightOver-widthOver'
+                }
+            }
+        }
+        console.log(orientation);
+        return orientation;
+    }
+
     snapPicture() {
         var previewWidth = this.preview.nativeElement.offsetWidth;
         var previewHeight = this.preview.nativeElement.offsetHeight;
-        console.log({ previewHeight });
-        console.log({ previewWidth });
+        var cameraWidth = this.preview.nativeElement.srcObject.getVideoTracks()[0].getSettings().width;
+        var cameraHeight = this.preview.nativeElement.srcObject.getVideoTracks()[0].getSettings().height;
         var lensWidth = this.lens.nativeElement.offsetWidth;
         var lensHeight = this.lens.nativeElement.offsetHeight;
+        console.log({ previewHeight });
+        console.log({ previewWidth });
+        console.log({ cameraWidth });
+        console.log({ cameraHeight });
         console.log({ lensWidth });
         console.log({ lensHeight });
 
-        let orientation;
-        if (lensWidth < previewHeight) {
-            orientation = 'portrait';
-        } else if (lensWidth > previewHeight) {
-            orientation = 'landscape';
-        } else {
-            orientation = 'square';
-        }
-        console.log(orientation);
-
+        let orientation = this.getOrientation();
         let sx, sw, dx, dw, sy, sh, dy, dh;
         let canvasWidth, canvasHeight;
 
-        if (orientation === 'portrait') {
+        switch (orientation) {
+            case 'portrait-heightUnder-widthUnder':
+            case 'square-heightUnder-widthUnder':
+            case 'landscape-heightUnder-widthUnder':
 
+                console.log("WORKING");
+                console.log('portrait-heightUnder-widthUnder');
+                console.log('square-heightUnder-widthUnder');
+                console.log('landscape-heightUnder-widthUnder');
+                canvasHeight = lensHeight;
+                canvasWidth = lensWidth;
+                sx = (cameraWidth / previewWidth) * (previewWidth - lensWidth) / 2;
+                sw = (cameraWidth / previewWidth) * (lensWidth);
+                dx = 0;
+                dw = canvasWidth;
+
+                sy = (cameraHeight / previewHeight) * (previewHeight - lensHeight) / 2;
+                sh = lensHeight
+                dy = 0;
+                dh = canvasHeight;
+                break;
+            case 'portrait-heightOver-widthUnder':
+            case 'landscape-heightOver-widthUnder':
+            case 'square-heightOver-widthUnder':
+            case 'landscape-heightOver-widthOver':
+                console.log("WORKING");
+                console.log('portrait-heightOver-widthUnder');
+                console.log('landscape-heightOver-widthUnder');
+                console.log('square-heightOver-widthUnder');
+                console.log('landscape-heightOver-widthOver');
+                canvasHeight = lensHeight;
+                canvasWidth = lensWidth;
+                sx = (cameraWidth / previewWidth) * (previewWidth - lensWidth) / 2;
+                sw = (cameraWidth / previewWidth) * (lensWidth);
+                dx = 0;
+                dw = canvasWidth;
+
+                sy = 0;
+                sh = cameraHeight
+                dy = 0;
+                dh = canvasHeight;
+                break;
+            case 'landscape-heightUnder-widthOver':
+                console.log("ALMOST WORKING");
+                console.log('landscape-heightUnder-widthOver');
+
+                canvasHeight = lensHeight;
+                canvasWidth = lensWidth;
+                sx = (cameraWidth / previewWidth) * (previewWidth - lensWidth) / 2;
+                sw = (cameraWidth / previewWidth) * (lensWidth);
+                dx = 0;
+                dw = canvasWidth;
+
+                sy = (cameraHeight / previewHeight) * (previewHeight - lensHeight) / 2;
+                sh = lensHeight
+                dy = 0;
+                dh = canvasHeight;
+                break;
         }
-
-
-        if (lensHeight > 720) {
-            canvasHeight = 720;
-            canvasWidth = canvasHeight / lensHeight * lensWidth;
-            console.log({ previewHeight })
-            console.log({ previewWidth })
-            console.log({ lensHeight })
-            console.log({ lensWidth })
-            console.log({ canvasHeight })
-            console.log({ canvasWidth })
-
-            // lensHeight 900 
-            // lensWidth 500
-
-            // canvasHeight 720 
-            // X 400
-
-            //     900     720
-            // X * ---  == --- * 500
-            //     500      900
-
-            // sx = (previewWidth - lensWidth) / 2;
-            sx = 600 - 160;
-            // sw = previewWidth - sx;
-            sw = 400;
-            // dx = 0;
-            dx = 0;
-            // dw = canvasWidth + (previewWidth - canvasWidth) / 2;
-            dw = 400
-
-
-            // sy = (previewHeight - lensHeight) / 2;
-            sy = 90;
-            // sh = previewHeight - sy;
-            sh = 720;
-            // dy = 0;
-            dy = 0
-            // dh = lensHeight + sy;
-            dh = 720
-
-        } else if (lensWidth > 1280) {
-            canvasWidth = 1280;
-            canvasHeight = 1280 / lensWidth * lensHeight;
-            sx = (previewWidth - lensWidth) / 2;
-            sw = previewWidth - sx;
-            dx = 0;
-            dw = lensWidth + sx;
-
-            sy = (previewHeight - lensHeight) / 2;
-            sh = previewHeight - sy;
-            dy = 0;
-            dh = lensHeight + sy;
-        } else {
-            canvasWidth = lensWidth;
-            canvasHeight = lensHeight;
-            sx = (previewWidth - lensWidth) / 2;
-            sw = previewWidth - sx;
-            dx = 0;
-            dw = lensWidth + sx;
-
-            sy = (previewHeight - lensHeight) / 2;
-            sh = previewHeight - sy;
-            dy = 0;
-            dh = lensHeight + sy;
-        }
-
-        // if()
 
         console.log({ sx });
         console.log({ sy });
@@ -176,7 +255,7 @@ export class CameraComponent implements OnInit {
         let blob = this.dataURLtoBlob(dataURL);
 
         console.log(dataURL);
-        this.callClarify(dataURL)
+        this.callClarify(dataURL);
         // this.callForge(blob);
     }
 

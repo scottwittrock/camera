@@ -2,8 +2,8 @@
     height: 100vh; /* Fallback for browsers that do not support Custom Properties */
     height: calc(var(--vh, 1vh) * 100);
     width: 100vw;
-    max-width: 1280px;
-    max-height: 720px;
+    // max-width: 1280px;
+    // max-height: 720px;
     position: absolute;
     overflow: hidden;
     margin: 0px;

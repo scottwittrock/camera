@@ -4,6 +4,9 @@ import { Routes, RouterModule } from '@angular/router';
 const routes: Routes = [{
     path: '',
     loadChildren: './example-app/example-app.module#ExampleAppModule'
+},{
+    path: 'test',
+    loadChildren: './test-app/test-app.module#TestAppModule'
 },];
 
 @NgModule({

@@ -2,9 +2,9 @@ import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/cor
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
-  selector: 'app-preview-big',
-  templateUrl: './preview-big.component.html',
-  styleUrls: ['./preview-big.component.scss']
+    selector: 'app-preview-big',
+    templateUrl: './preview-big.component.html',
+    styleUrls: ['./preview-big.component.scss']
 })
 export class PreviewBigComponent implements OnInit {
 
@@ -24,8 +24,8 @@ export class PreviewBigComponent implements OnInit {
 
     constraints = {
         video: {
-            width: { min: 720 },
-            height: { min: 720 },
+            width: 720,
+            height: 1280,
             facingMode: 'enviroment'
         },
         audio: false
@@ -45,6 +45,9 @@ export class PreviewBigComponent implements OnInit {
         navigator.mediaDevices.getUserMedia(this.constraints).then((stream) => {
             console.log("Getting stream");
             this.preview.nativeElement.srcObject = stream
+            console.log(stream.getVideoTracks()[0].getSettings().height);
+            console.log(stream.getVideoTracks()[0].getSettings().width);
+            console.log(stream.getVideoTracks()[0].getSettings().aspectRatio);
 
         }).catch((err) => {
             console.log("There was an issue using the camera falling back to image upload");
@@ -56,10 +59,16 @@ export class PreviewBigComponent implements OnInit {
     image;
 
     snapPicture() {
+
+        // This was a major learning that the way I was pulling the preview height was not what the canvas was using to draw the image.
         var previewWidth = this.preview.nativeElement.offsetWidth;
         var previewHeight = this.preview.nativeElement.offsetHeight;
+        var cameraWidth = this.preview.nativeElement.srcObject.getVideoTracks()[0].getSettings().width;
+        var cameraHeight = this.preview.nativeElement.srcObject.getVideoTracks()[0].getSettings().height;
         console.log({ previewHeight });
         console.log({ previewWidth });
+        console.log({ cameraWidth });
+        console.log({ cameraHeight });
         var lensWidth = this.lens.nativeElement.offsetWidth;
         var lensHeight = this.lens.nativeElement.offsetHeight;
         console.log({ lensWidth });
@@ -78,74 +87,33 @@ export class PreviewBigComponent implements OnInit {
         let sx, sw, dx, dw, sy, sh, dy, dh;
         let canvasWidth, canvasHeight;
 
-        if (orientation === 'portrait') {
+        canvasHeight = lensHeight;
+        canvasWidth = lensWidth;
+        console.log({ previewHeight })
+        console.log({ previewWidth })
+        console.log({ lensHeight })
+        console.log({ lensWidth })
+        console.log({ canvasHeight })
+        console.log({ canvasWidth })
 
-        }
+        sx = (cameraWidth/previewWidth) * (previewWidth - lensWidth) / 2;
+        // sx = 600 - 160;
+        sw = (cameraWidth/previewWidth) * (lensWidth);
+        // sw = 400;
+        dx = 0;
+        // dx = 0;
+        dw = canvasWidth;
+        // dw = 400
 
 
-        if (lensHeight > 720) {
-            canvasHeight = 720;
-            canvasWidth = canvasHeight / lensHeight * lensWidth;
-            console.log({ previewHeight })
-            console.log({ previewWidth })
-            console.log({ lensHeight })
-            console.log({ lensWidth })
-            console.log({ canvasHeight })
-            console.log({ canvasWidth })
-
-            // lensHeight 900 
-            // lensWidth 500
-
-            // canvasHeight 720 
-            // X 400
-
-            //     900     720
-            // X * ---  == --- * 500
-            //     500      900
-
-            // sx = (previewWidth - lensWidth) / 2;
-            sx = 600 - 160;
-            // sw = previewWidth - sx;
-            sw = 400;
-            // dx = 0;
-            dx = 0;
-            // dw = canvasWidth + (previewWidth - canvasWidth) / 2;
-            dw = 400
-
-            // sy = (previewHeight - lensHeight) / 2;
-            sy = 90;
-            // sh = previewHeight - sy;
-            sh = 720;
-            // dy = 0;
-            dy = 0
-            // dh = lensHeight + sy;
-            dh = 720
-
-        } else if (lensWidth > 1280) {
-            canvasWidth = 1280;
-            canvasHeight = 1280 / lensWidth * lensHeight;
-            sx = (previewWidth - lensWidth) / 2;
-            sw = previewWidth - sx;
-            dx = 0;
-            dw = lensWidth + sx;
-
-            sy = (previewHeight - lensHeight) / 2;
-            sh = previewHeight - sy;
-            dy = 0;
-            dh = lensHeight + sy;
-        } else {
-            canvasWidth = lensWidth;
-            canvasHeight = lensHeight;
-            sx = (previewWidth - lensWidth) / 2;
-            sw = previewWidth - sx;
-            dx = 0;
-            dw = lensWidth + sx;
-
-            sy = (previewHeight - lensHeight) / 2;
-            sh = previewHeight - sy;
-            dy = 0;
-            dh = lensHeight + sy;
-        }
+        sy = 0;
+        // sy = 90;
+        sh = cameraHeight
+        // sh = 720;
+        dy = 0;
+        // dy = 0
+        dh = canvasHeight;
+        // dh = 720
 
         // if()
 

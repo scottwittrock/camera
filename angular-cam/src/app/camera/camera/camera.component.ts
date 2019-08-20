@@ -14,6 +14,7 @@ export class CameraComponent implements OnInit {
     @Output() onStart: EventEmitter<Blob> = new EventEmitter();
     @Output() onTag: EventEmitter<string> = new EventEmitter();
     @Output() onResults: EventEmitter<Array<any>> = new EventEmitter();
+    @Output() onResult: EventEmitter<any> = new EventEmitter();
     @Output() onError: EventEmitter<Array<any>> = new EventEmitter();
 
     sdk;
@@ -235,6 +236,11 @@ export class CameraComponent implements OnInit {
                 console.log(res);
                 res.results[0].outputs[0].data.concepts.forEach(concept => {
                     console.log(concept);
+                    let item = {
+                        title: concept.name,
+                        confidence: concept.value.toFixed(2)
+                    }
+                    this.onResult.emit(item);
                 });
 
                 res.results[0].outputs[1].data.concepts.forEach(concept => {

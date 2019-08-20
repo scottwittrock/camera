@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [{
     path: '',
-    loadChildren: './camera/camera.module#CameraModule'
+    loadChildren: './example-app/example-app.module#ExampleAppModule'
 },];
 
 @NgModule({

@@ -1,0 +1,34 @@
+<div class="container">
+    <app-camera (onTag)="renderTag($event)" (onStart)="onStart($event)" (onResult)="renderResult($event)" (onError)="onError($event)"></app-camera>
+</div>
+
+<!-- <div style="position: fixed; bottom: 0px; width: 100vw; height: 100px; display: flex; align-items: center; justify-content: center; background-color: grey;"> 
+    Tap to Search
+</div> -->
+
+
+<div class="overlay" *ngIf="searching">
+        <div></div>
+        <div *ngIf="userGeneratedImage" class="image-container">
+            <img [src]="userGeneratedImage">
+        </div>
+        <div class="layer">
+            <div style="margin: 16px;">
+                <div class="result" *ngFor="let result of results">
+                    <div>
+                        {{result.title}}
+                    </div>
+                    <div>
+                        {{result.confidence}}%
+                    </div>
+                </div>
+            </div>
+
+            <div class='tag-container'>
+                <div *ngFor="let tag of tags; let i = index;" class="tag">
+                        {{tag}}
+                </div>
+            </div>
+            <button class="button" (click)="newSearch()">New Search</button>
+        </div>
+</div>

@@ -10,7 +10,7 @@ export class ContainerComponent implements OnInit {
     tags = [];
     userGeneratedImage;
     searching;
-    results;
+    results = [];
     number = 0;
     statuses = []
 
@@ -26,16 +26,15 @@ export class ContainerComponent implements OnInit {
         this.number++
     }
     renderTag(e) {
-        this.tags.push(e);
-        this.number++
-        this.statuses.push(e)
+        if(this.tags.length < 8){
+            this.tags.push(e);
+        }
     }
 
-    renderResults(e) {
+    renderResult(e) {
         console.log(e);
-        this.statuses.push("renderResults ran");
+        this.results.push(e);
         this.number++
-        this.results = e;
     }
 
     onError(e){
@@ -48,6 +47,7 @@ export class ContainerComponent implements OnInit {
     newSearch(){
         this.searching = false;
         this.tags = [];
+        this.results = [];
         this.number = 0;
         this.statuses = [];
     }

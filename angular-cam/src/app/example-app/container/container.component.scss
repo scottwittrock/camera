@@ -31,8 +31,14 @@ img {
     -moz-transform: translate(-50%, -50%);
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
-    min-height: 100%;
-    min-width: 100%;
+
+}
+
+.portrait {
+    width: 300px;
+}
+.landscape {
+    height: 300px;
 }
 
 .overlay {

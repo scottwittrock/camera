@@ -11,7 +11,9 @@
 <div class="overlay" *ngIf="searching">
         <div></div>
         <div *ngIf="userGeneratedImage" class="image-container">
-            <img [src]="userGeneratedImage">
+            <img [src]="userGeneratedImage" 
+                [ngClass]="{'portrait': orientation==='portrait', 'landscape': orientation==='landscape'}"
+            >
         </div>
         <div class="layer">
             <div style="margin: 16px;">

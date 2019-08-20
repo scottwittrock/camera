@@ -12,7 +12,8 @@ export class ContainerComponent implements OnInit {
     searching;
     results = [];
     number = 0;
-    statuses = []
+    statuses = []; 
+    orientation;
 
     constructor() { }
 
@@ -21,6 +22,18 @@ export class ContainerComponent implements OnInit {
 
     onStart(e) {
         this.searching = true;
+        var i = new Image()
+        i.onload = ()=>{
+          console.log({w: i.width, h: i.height})
+          if(i.width > i.height){
+              this.orientation = 'landscape';
+          }else {
+              this.orientation = 'portrait';
+          }
+          console.log(this.orientation);
+        };
+        i.src = e
+        // TODO: get orientation of image and adjust accordingly
         this.userGeneratedImage = e;
         this.statuses.push("onstart ran")
         this.number++

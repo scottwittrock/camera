@@ -317,9 +317,11 @@ export class CameraComponent implements OnInit {
                     console.log(concept);
                     let item = {
                         title: concept.name,
-                        confidence: concept.value.toFixed(2)
+                        confidence: parseInt(concept.value.toFixed(2)) * 100
                     }
-                    this.onResult.emit(item);
+                    if(item.confidence > 1){
+                        this.onResult.emit(item);
+                    }
                 });
 
                 res.results[0].outputs[1].data.concepts.forEach(concept => {

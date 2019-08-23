@@ -259,6 +259,7 @@ export class CameraComponent implements OnInit {
         // this.callForge(blob);
     }
 
+    // TODO: Move visual search features into 
     callForge(blob) {
         let callbacks = {
             onTaskUpdated: (message) => {

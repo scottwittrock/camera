@@ -7,9 +7,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class CameraComponent implements OnInit {
 
-    @ViewChild('lens') lens;
-    @ViewChild('preview') preview;
-    @ViewChild('canvas') canvas;
+    @ViewChild('lens', { static: false }) lens;
+    @ViewChild('preview', { static: false }) preview;
+    @ViewChild('canvas', { static: false }) canvas;
 
     @Output() onStart: EventEmitter<Blob> = new EventEmitter();
     @Output() onTag: EventEmitter<string> = new EventEmitter();
